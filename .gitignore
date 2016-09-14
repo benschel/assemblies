@@ -42,3 +42,5 @@ android/keystores/debug.keystore
 
 # Data
 api/data
+
+.env

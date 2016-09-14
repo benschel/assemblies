@@ -1,29 +1,58 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text
+    Text,
+    TextInput,
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 
+import Config from 'react-native-config';
+import { find, extend, isEqual } from 'underscore';
+
 import NavigationBar from 'react-native-navbar';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import BackButton from '../shared/BackButton';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../styles/colors';
-import { globals } from '../../styles';
+import { globals, formStyles, autocompleteStyles } from '../../styles';
+
+const GooglePlacesKey = Config.GOOGLE_PLACES_API_KEY;
+
+const styles = formStyles;
 
 
 class Register extends Component {
     constructor() {
         super();
         this.goBack = this.goBack.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.selectLocation = this.selectLocation.bind(this);
+        this.state = {
+            email: '',
+            firstName: '',
+            lastName: '',
+            location: null,
+            password: ''
+        };
     }
 
     goBack() {
         this.props.navigator.pop();
     }
 
+    selectLocation(data, details) {
+        /* Todo */
+    }
+
+    handleSubmit() {
+        /* Todo */
+    }
+
     render() {
         let titleConfig = {
-            title: 'Register',
+            title: 'Create Account',
             tintColor: 'white'
         };
 
@@ -34,11 +63,94 @@ class Register extends Component {
                     tintColor={Colors.brandPrimary}
                     leftButton={<BackButton handlePress={this.goBack} />}
                 />
-                <View style={globals.flexCenter}>
-                    <Text style={globals.h2}>
-                        Register
+                <ScrollView style={styles.container}>
+                    <Text style={styles.h4}>
+                        * Where are you looking for assemblies?
                     </Text>
-                </View>
+                    <View style={globals.flex}>
+                        <GooglePlacesAutocomplete
+                            autoFocus={false}
+                            currentLocation={false}
+                            currentLocationLabel="Current location"
+                            fetchDetails={true}
+                            filterReverseGeocodingByTypes={['street_address']}
+                            getDefaultValue={() => {return '';}}
+                            GooglePlacesSearchQuery={{rankby: 'distance',}}
+                            GoogleReverseGeocodingQuery={{}}
+                            minLength={2}
+                            nearbyPlacesAPI='GooglePlacesSearch'
+                            onPress={this.selectLocation}
+                            placeholder='Your city'
+                            predefinedPlaces={[]}
+                            query={{
+                                key: GooglePlacesKey,
+                                language: 'en',
+                                types: '(cities)'
+                            }}
+                            styles={autocompleteStyles}>
+                        </GooglePlacesAutocomplete>
+                    </View>
+                    <Text style={styles.h4}>* Email</Text>
+                    <View style={styles.formField}>
+                        <TextInput
+                            autoCapitalize="none"
+                            keyboardType="email-address"
+                            maxLength={144}
+                            onChangeText={(email) => this.setState({ email })}
+                            onSubmitEditing={() => this.password.focus()}
+                            placeholder="Your email address"
+                            placeholderTextColor={Colors.copyMedium}
+                            returnKeyType="next"
+                            style={styles.input}
+                        />
+                    </View>
+                    <Text style={styles.h4}>* Password</Text>
+                    <View style={styles.formField}>
+                        <TextInput
+                            autoCapitalize="none"
+                            maxLength={20}
+                            onChangeText={(password) => this.setState({ password })}
+                            onSubmitEditing={() => this.firstName.focus()}
+                            placeholder="Your password"
+                            placeholderTextColor={Colors.copyMedium}
+                            ref={(el) => this.password = el }
+                            returnKeyType="next"
+                            secureTextEntry={true}
+                            style={styles.input}
+                        />
+                    </View>
+                    <Text style={styles.h4}>* First Name</Text>
+                    <View style={styles.formField}>
+                        <TextInput
+                            maxLength={20}
+                            onChangeText={(firstName) => this.setState({ firstName })}
+                            onSubmitEditing={() => this.lastName.focus()}
+                            placeholder="Your first name"
+                            placeholderTextColor='#bbb'
+                            ref={(el) => this.firstName = el }
+                            returnKeyType="next"
+                            style={styles.input}
+                        />
+                    </View>
+                    <Text style={styles.h4}>* Last Name</Text>
+                    <View style={styles.formField}>
+                        <TextInput
+                            maxLength={20}
+                            onChangeText={(lastName) => this.setState({ lastName })}
+                            placeholder="Your last name"
+                            placeholderTextColor='#bbb'
+                            ref={(el) => this.lastName = el }
+                            returnKeyType="next"
+                            style={styles.input}
+                        />
+                    </View>
+                </ScrollView>
+                <TouchableOpacity
+                    style={styles.submitButton}
+                    onPress={this.handleSubmit}
+                >
+                    <Text style={globals.largeButtonText}>Next</Text>
+                </TouchableOpacity>
             </View>
         );
     }
