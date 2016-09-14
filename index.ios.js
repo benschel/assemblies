@@ -8,6 +8,7 @@ import Landing from './application/components/Landing';
 import Dashboard from './application/components/Dashboard';
 import Register from './application/components/accounts/Register';
 import Login from './application/components/accounts/Login';
+import RegisterConfirmation from './application/components/accounts/RegisterConfirmation';
 
 import { globals } from './application/styles';
 
@@ -69,6 +70,14 @@ class assemblies extends Component {
                                 <Login 
                                     navigator={navigator}
                                     updateUser={this.updateUser} 
+                                />
+                            );
+                        case 'RegisterConfirmation':
+                            return (
+                                <RegisterConfirmation
+                                    {...route}
+                                    updateUser={this.updateUser}
+                                    navigator={navigator}
                                 />
                             );
                     }

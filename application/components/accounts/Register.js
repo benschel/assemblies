@@ -43,11 +43,29 @@ class Register extends Component {
     }
 
     selectLocation(data, details) {
-        /* Todo */
+        if (!details) {return;}
+
+        let location = {
+            ...details.geometry.location,
+            city: find(details.address_components, (c) => (
+                isEqual(c.types[0], 'locality')
+            )),
+            state: find(details.address_components, (c) => (
+                isEqual(c.types[0], 'administrative_area_level_1')
+            )),
+            country: find(details.address_components, (c) => (
+                isEqual(c.types[0], 'administrative_area_level_2')
+            )),
+            formattedAddress: details.formatted_address
+        };
+        this.setState({ location });
     }
 
     handleSubmit() {
-        /* Todo */
+        this.props.navigator.push({
+            name: 'RegisterConfirmation',
+            ...this.state
+        });
     }
 
     render() {
