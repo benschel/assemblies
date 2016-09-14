@@ -15,22 +15,27 @@ import { globals } from './application/styles';
 class assemblies extends Component {
     constructor() {
         super();
+        this.logout = this.logout.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.state = {
             user: null
         };
     }
 
+    logout() {
+        this.nav.push({ name: 'Landing' });
+        this.updateUser(null);
+    }
+
     updateUser(user) {
-        this.setState({
-            user: user
-        });
+        this.setState({ user });
     }
 
     render() {
         return (
             <Navigator
                 style={globals.flex}
+                ref={(el) => this.nav = el}
                 initialRoute={{ name: 'Landing' }}
                 renderScene={(route, navigator) => {
                     switch(route.name) {
@@ -43,6 +48,7 @@ class assemblies extends Component {
                                 <Dashboard 
                                     navigator={navigator}
                                     updateUser={this.updateUser}
+                                    logout={this.logout}
                                     user={this.state.user}
                                 />
                             );
