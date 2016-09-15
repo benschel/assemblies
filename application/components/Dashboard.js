@@ -8,6 +8,8 @@ import { API } from '../config';
 import ActivityView from './activity/ActivityView';
 import MessagesView from './messages/MessagesView';
 import ProfileView from './profile/ProfileView';
+import CalendarView from './calendar/CalendarView';
+import GroupsView from './groups/GroupsView';
 
 
 class Dashboard extends Component {
@@ -55,6 +57,22 @@ class Dashboard extends Component {
                     onPress={() => this.setState({ selectedTab: 'Profile' })}
                 >
                     <ProfileView currentUser={user} logout={this.logout} />
+                </TabBarItemIOS>
+                <TabBarItemIOS
+                    title='Groups'
+                    selected={this.state.selectedTab === 'Groups'}
+                    iconName='ios-people'
+                    onPress={() => this.setState({ selectedTab: 'Groups' })}
+                >
+                    <GroupsView currentUser={user} />
+                </TabBarItemIOS>
+                <TabBarItemIOS
+                    title='Calendar'
+                    selected={this.state.selectedTab === 'Calendar'}
+                    iconName='ios-calendar'
+                    onPress={() => this.setState({ selectedTab: 'Calendar' })}
+                >
+                    <CalendarView currentUser={user} />
                 </TabBarItemIOS>
             </TabBarIOS>
         );
