@@ -14,8 +14,6 @@ import NavigationBar from 'react-native-navbar';
 import { find, isEqual } from 'underscore';
 import { rowHasChanged } from '../../utilities';
 
-import { FakeConversations, FakeUsers, currentUser } from '../../fixtures';
-
 import Colors from '../../styles/colors';
 import { globals, messagesStyles } from '../../styles';
 
@@ -26,20 +24,29 @@ class Conversations extends Component {
         super();
         this._renderRow = this._renderRow.bind(this);
         this.dataSource = this.dataSource.bind(this);
+        this.visitConversation = this.visitConversation.bind(this);
+    }
+
+    visitConversation(user) {
+        this.props.navigator.push({
+            name: 'Conversation',
+            user
+        });
     }
 
     _renderRow(conversation) {
-        let userIDs = [
-            conversation.user1Id,
-            conversation.user2Id
-        ];
+        let { currentUser } = this.props;
 
+        let userIDs = [ conversation.user1Id, conversation.user2Id ];
         let otherUserID = find(userIDs, (id) => !isEqual(id, currentUser.id));
 
-        let user = find(FakeUsers, ({ id }) => isEqual(id, otherUserID));
+        let user = find(this.props.users, ({ id }) => isEqual(id, otherUserID));
 
         return (
-            <TouchableOpacity style={globals.flexContainer}>
+            <TouchableOpacity 
+                style={globals.flexContainer}
+                onPress={() => this.visitConversation(user)}
+            >
                 <View style={globals.flexRow}>
                     <Image
                         style={globals.avatar}
@@ -76,7 +83,7 @@ class Conversations extends Component {
             new ListView.DataSource({
                 rowHasChanged: rowHasChanged
             })
-            .cloneWithRows(FakeConversations)
+            .cloneWithRows(this.props.conversations)
         );
     }
 
@@ -93,6 +100,7 @@ class Conversations extends Component {
                     tintColor={Colors.brandPrimary}
                 />
                 <ListView
+                    enableEmptySections={true}
                     dataSource={this.dataSource()}
                     contentInset={{ bottom: 49 }}
                     renderRow={this._renderRow}
