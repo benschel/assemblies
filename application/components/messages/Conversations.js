@@ -80,10 +80,7 @@ class Conversations extends Component {
 
     dataSource() {
         return (
-            new ListView.DataSource({
-                rowHasChanged: rowHasChanged
-            })
-            .cloneWithRows(this.props.conversations)
+            new ListView.DataSource({ rowHasChanged: rowHasChanged }).cloneWithRows(this.props.conversations)
         );
     }
 

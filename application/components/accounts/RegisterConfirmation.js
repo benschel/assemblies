@@ -5,7 +5,8 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    AsyncStorage
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -93,6 +94,8 @@ class RegisterConfirmation extends Component {
     }
 
     getUserInfo(sid) {
+        AsyncStorage.setItem('sid', sid);
+
         fetch(`${API}/users/me`, {
             headers: extend(Headers, {'Set-Cookie': `sid=${sid}`})
         })

@@ -1,6 +1,6 @@
 export function rowHasChanged(r1, r2) {
     return r1 != r2;
-}
+};
 
 export function registerError({ email, password, location, firstName, lastName }) {
     if (! /@/.test(email)) { return 'Invalid email address'; }
