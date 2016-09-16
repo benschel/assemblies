@@ -99,17 +99,59 @@ export const GroupMembers = ({ users, members, handlePress }) => {
     );
 };
 
+const OptionsButton = ({ openActionSheet }) => {
+    return (
+        <TouchableOpacity
+            style={globals.pa1}
+            onPress={openActionSheet}
+        >
+            <Icon name="ios-more" size={25} color="#ccc" />
+        </TouchableOpacity>
+    );
+};
+
 
 class Group extends Component {
     constructor() {
         super();
         this.goBack = this.goBack.bind(this);
         this.visitProfile = this.visitProfile.bind(this);
+        this.visitCreateEvent = this.visitCreateEvent.bind(this);
+        this.openActionSheet = this.openActionSheet.bind(this);
         this.state = {
             events: [],
             ready: false,
             users: []
         };
+    }
+
+    openActionSheet() {
+        let { group, currentUser } = this.props;
+        let member = find(group.memebers, ({ userId }) => isEqual(userId, currentUser.id));
+
+        let buttonActions = ['Unsubscribe', 'Cancel'];
+
+        if (member && member.role === 'owner') {
+            buttonActions.unshift('Create Event');
+        }
+
+        let options = {
+            options: buttonActions,
+            cancelButtonIndex: buttonActions.length - 1
+        };
+
+        ActionSheetIOS.showActionSheetWithOptions(options, (buttonIndex) => {
+            switch(buttonActions[buttonIndex]) {
+                case 'Unsubscribe':
+                    this.props.unsubscribeFromGroup(group, currentUser);
+                    break;
+                case 'Create Event':
+                    this.visitCreateEvent(group);
+                    break;
+                default:
+                    return;
+            }
+        });
     }
 
     componentDidMount() {
@@ -159,6 +201,7 @@ class Group extends Component {
                     title={{title: group.name, tintColor: 'white'}}
                     tintColor={Colors.brandPrimary}
                     leftButton={<BackButton handlePress={this.goBack} />}
+                    rightButton={<OptionsButton openActionSheet={this.openActionSheet} />}
                 />
                 <ScrollView style={globals.flex}>
                     <Image source={{uri: group.image}} style={styles.groupTopImage}>
