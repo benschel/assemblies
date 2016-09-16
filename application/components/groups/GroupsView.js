@@ -6,6 +6,8 @@ import {
 import { find, isEqual } from 'underscore';
 
 import Groups from './Groups';
+import CreateGroup from './CreateGroup';
+import CreateGroupConfirmation from './CreateGroupConfirmation';
 
 import Headers from '../../fixtures';
 import { API, DEV } from '../../config';
@@ -71,6 +73,24 @@ class GroupsView extends Component {
                                 <Groups
                                     {...this.props}
                                     {...this.state}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'CreateGroup':
+                            return (
+                                <CreateGroup
+                                    {...this.props}
+                                    {...this.state}
+                                    {...route}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'CreateGroupConfirmation':
+                            return (
+                                <CreateGroupConfirmation
+                                    {...this.props}
+                                    {...this.state}
+                                    {...route}
                                     navigator={navigator}
                                 />
                             );

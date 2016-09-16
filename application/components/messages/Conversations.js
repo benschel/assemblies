@@ -13,6 +13,7 @@ import NavigationBar from 'react-native-navbar';
 
 import { find, isEqual } from 'underscore';
 import { rowHasChanged } from '../../utilities';
+import Loading from '../shared/Loading';
 
 import Colors from '../../styles/colors';
 import { globals, messagesStyles } from '../../styles';
@@ -80,11 +81,14 @@ class Conversations extends Component {
 
     dataSource() {
         return (
-            new ListView.DataSource({ rowHasChanged: rowHasChanged }).cloneWithRows(this.props.conversations)
+            new ListView.DataSource({ rowHasChanged: rowHasChanged })
+            .cloneWithRows(this.props.conversations)
         );
     }
 
     render() {
+        if (!this.props.ready) { return <Loading /> }
+
         let titleConfig = {
             title: 'Messages',
             tintColor: 'white'
