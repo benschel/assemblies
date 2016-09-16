@@ -6,6 +6,7 @@ import {
 import { find, isEqual } from 'underscore';
 
 import Groups from './Groups';
+import Group from './Group';
 import CreateGroup from './CreateGroup';
 import CreateGroupConfirmation from './CreateGroupConfirmation';
 
@@ -17,11 +18,21 @@ import { globals } from '../../styles';
 class GroupsView extends Component {
     constructor() {
         super();
+        this.addGroup = this.addGroup.bind(this);
         this.state = {
             groups: [],
             ready: false,
             suggestedGroups: []
         };
+    }
+
+    addGroup(group) {
+        this.setState({
+            groups: [
+                ...this.state.groups,
+                group
+            ]
+        });
     }
 
     componentWillMount() {
@@ -90,6 +101,15 @@ class GroupsView extends Component {
                                 <CreateGroupConfirmation
                                     {...this.props}
                                     {...this.state}
+                                    {...route}
+                                    navigator={navigator}
+                                    addGroup={this.addGroup}
+                                />
+                            );
+                        case 'Group':
+                            return (
+                                <Group
+                                    {...this.props}
                                     {...route}
                                     navigator={navigator}
                                 />

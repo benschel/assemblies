@@ -94,7 +94,7 @@ class CreateGroup extends Component {
                         onPress={this.handlePress}
                         getDefaultValue={() => {return '';}}
                         query={{
-                            key: Config.GOOGLE_PLACESS_API_KEY,
+                            key: Config.GOOGLE_PLACES_API_KEY,
                             language: "en",
                             types: "(cities)"
                         }}
