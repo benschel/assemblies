@@ -9,13 +9,21 @@
 			"id": "groupId",
 			"order": 0
 		},
+		"name": {
+			"name": "name",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "name",
+			"order": 1
+		},
 		"createdAt": {
 			"name": "createdAt",
 			"type": "number",
 			"typeLabel": "number",
 			"required": false,
 			"id": "createdAt",
-			"order": 1
+			"order": 2
 		},
 		"start": {
 			"name": "start",
@@ -23,7 +31,7 @@
 			"typeLabel": "number",
 			"required": false,
 			"id": "start",
-			"order": 2
+			"order": 3
 		},
 		"end": {
 			"name": "end",
@@ -31,7 +39,7 @@
 			"typeLabel": "number",
 			"required": false,
 			"id": "end",
-			"order": 3
+			"order": 4
 		},
 		"location": {
 			"name": "location",
@@ -39,7 +47,7 @@
 			"typeLabel": "object",
 			"required": false,
 			"id": "location",
-			"order": 4
+			"order": 5
 		},
 		"going": {
 			"name": "going",
@@ -47,7 +55,7 @@
 			"typeLabel": "array",
 			"required": false,
 			"id": "going",
-			"order": 5
+			"order": 6
 		},
 		"capacity": {
 			"name": "capacity",
@@ -55,7 +63,15 @@
 			"typeLabel": "number",
 			"required": false,
 			"id": "capacity",
-			"order": 6
+			"order": 7
+		},
+		"description": {
+			"name": "description",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "description",
+			"order": 8
 		}
 	}
 }

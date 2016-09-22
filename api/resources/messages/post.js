@@ -13,7 +13,7 @@ dpd.conversations.get({
 .then(function(data){
     console.log('DATA', data);
     if (data.length) {
-        dpd.conversations.put(data.id, {
+        dpd.conversations.put(data[0].id, {
             lastMessageText: text,
             lastMessageDate: createdAt
         });

@@ -9,6 +9,8 @@ import Groups from './Groups';
 import Group from './Group';
 import CreateGroup from './CreateGroup';
 import CreateGroupConfirmation from './CreateGroupConfirmation';
+import CreateEvent from './CreateEvent';
+import CreateEventConfirmation from './CreateEventConfirmation';
 
 import Headers from '../../fixtures';
 import { API, DEV } from '../../config';
@@ -163,6 +165,23 @@ class GroupsView extends Component {
                                     navigator={navigator}
                                     addUserToGroup={this.addUserToGroup}
                                     unsubscribeFromGroup={this.unsubscribeFromGroup}
+                                />
+                            );
+                        case 'CreateEvent':
+                            return (
+                                <CreateEvent
+                                    {...this.props}
+                                    {...route}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'CreateEventConfirmation':
+                            return (
+                                <CreateEventConfirmation
+                                    {...this.props}
+                                    {...this.state}
+                                    {...route}
+                                    navigator={navigator}
                                 />
                             );
                     }

@@ -26,6 +26,10 @@ class MessagesView extends Component {
         this._loadConversations();
     }
 
+    componentWillUpdate() {
+        this._loadConversations();
+    }
+
     _loadConversations() {
         let { currentUser } = this.props;
         let query = {

@@ -18,6 +18,7 @@ import BackButton from '../shared/BackButton';
 
 import { API, DEV } from '../../config';
 import { Headers } from '../../fixtures';
+import { rowHasChanged } from '../../utilities';
 
 import Colors from '../../styles/colors';
 import { globals, groupsStyles as styles } from '../../styles';
@@ -32,15 +33,66 @@ function showJoinButton(users, currentUser) {
 
 
 class EventList extends Component {
-    render() {
+    constructor() {
+        super();
+        this._renderRow = this._renderRow.bind(this);
+    }
+
+    _renderRow(event, sectionID, rowID) {
+        let { currentUser, events, group } = this.props;
+        let isGoing = find(event.going, (id) => isEqual(id, currentUser.id));
+
         return (
-            <View>
-                {this.props.events.map((event, idx) => {
-                    return (
-                        <Text>{event.name}</Text>
-                    );
-                })}
+            <View style={styles.eventContainer}>
+                <TouchableOpacity
+                    style={globals.flex}
+                    onPress={() => this.props.visitEvent(event)}
+                >
+                    <Text style={globals.h5}>{event.name}</Text>
+                    <Text style={styles.h4}>
+                        {moment(event.start).format('dddd, MMM Do')}
+                    </Text>
+                    <Text style={styles.h4}>
+                        {event.going.length} Going
+                    </Text>
+                </TouchableOpacity>
+                <View style={[globals.flexRow, globals.pa1]}>
+                    <Text style={[globals.primaryText, styles.h4, globals.ph1]}>
+                        {isGoing ? "You're Going" : "Want to Go?"}
+                    </Text>
+                    <Icon
+                        name={isGoing ? "ios-checkmark" : "ios-add"}
+                        size={30}
+                        color={Colors.brandPrimary}
+                    />
+                </View>
             </View>
+        );
+    }
+
+    dataSource() {
+        return (
+            new ListView.DataSource({ rowHasChanged }).cloneWithRows(this.props.events)
+        );
+    }
+
+    render() {
+        if (!this.props.events.length) {
+            return (
+                <Text style={[globals.h5, globals.mh2]}>
+                    No events scheduled
+                </Text>
+            );
+        }
+
+        return (
+            <ListView
+                enableEmptySections={true}
+                dataSource={this.dataSource()}
+                renderRow={this._renderRow}
+                scrollEnabled={false}
+                style={globals.flex}
+            />
         );
     }
 };
@@ -125,9 +177,28 @@ class Group extends Component {
         };
     }
 
+    componentDidMount() {
+        this._loadEvents();
+    }
+
+    _loadEvents() {
+        let query = {
+            groupId: this.props.group.id,
+            end: {$gt: new Date().valueOf()},
+            $limit: 10,
+            $sort: { start: -1}
+        };
+
+        fetch(`${API}/events?${JSON.stringify(query)}`)
+        .then(response => response.json())
+        .then(events => this._loadUsers(events))
+        .catch(err => {})
+        .done();
+    }
+
     openActionSheet() {
         let { group, currentUser } = this.props;
-        let member = find(group.memebers, ({ userId }) => isEqual(userId, currentUser.id));
+        let member = find(group.members, ({ userId }) => isEqual(userId, currentUser.id));
 
         let buttonActions = ['Unsubscribe', 'Cancel'];
 
@@ -152,10 +223,6 @@ class Group extends Component {
                     return;
             }
         });
-    }
-
-    componentDidMount() {
-        this._loadUsers();
     }
 
     _loadUsers(events) {
@@ -216,12 +283,18 @@ class Group extends Component {
                     </Image>
                     <Text style={styles.h2}>Summary</Text>
                     <Text style={[globals.h5, globals.ph2]}>{group.description}</Text>
+
+                    <Text style={styles.h2}>Technologies</Text>
                     <Text style={[globals.h5, globals.ph2]}>{group.technologies.join(', ')}</Text>
                     <View style={globals.lightDivider} />
                     
                     { showButton ? <JoinButton addUserToGroup={this.props.addUserToGroup} group={group} currentUser={currentUser} /> : null }
 
                     <Text style={styles.h2}>Events</Text>
+                    <EventList
+                        {...this.props}
+                        {...this.state}
+                    />
                     <View style={globals.lightDivider} />
 
                     <Text style={styles.h2}>Members</Text>
