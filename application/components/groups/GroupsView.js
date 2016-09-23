@@ -11,6 +11,7 @@ import CreateGroup from './CreateGroup';
 import CreateGroupConfirmation from './CreateGroupConfirmation';
 import CreateEvent from './CreateEvent';
 import CreateEventConfirmation from './CreateEventConfirmation';
+import Event from './Event';
 
 import Headers from '../../fixtures';
 import { API, DEV } from '../../config';
@@ -180,6 +181,14 @@ class GroupsView extends Component {
                                 <CreateEventConfirmation
                                     {...this.props}
                                     {...this.state}
+                                    {...route}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'Event':
+                            return (
+                                <Event
+                                    {...this.props}
                                     {...route}
                                     navigator={navigator}
                                 />
