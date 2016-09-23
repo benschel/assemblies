@@ -43,22 +43,6 @@ class Dashboard extends Component {
                     <ActivityView currentUser={user} />
                 </TabBarItemIOS>
                 <TabBarItemIOS
-                    title='Messages'
-                    selected={this.state.selectedTab === 'Messages'}
-                    iconName='ios-chatboxes'
-                    onPress={() => this.setState({ selectedTab: 'Messages' })}
-                >
-                    <MessagesView currentUser={user} />
-                </TabBarItemIOS>
-                <TabBarItemIOS
-                    title='Profile'
-                    selected={this.state.selectedTab === 'Profile'}
-                    iconName='ios-person'
-                    onPress={() => this.setState({ selectedTab: 'Profile' })}
-                >
-                    <ProfileView currentUser={user} logout={this.logout} />
-                </TabBarItemIOS>
-                <TabBarItemIOS
                     title='Groups'
                     selected={this.state.selectedTab === 'Groups'}
                     iconName='ios-people'
@@ -73,6 +57,22 @@ class Dashboard extends Component {
                     onPress={() => this.setState({ selectedTab: 'Calendar' })}
                 >
                     <CalendarView currentUser={user} />
+                </TabBarItemIOS>
+                <TabBarItemIOS
+                    title='Messages'
+                    selected={this.state.selectedTab === 'Messages'}
+                    iconName='ios-chatboxes'
+                    onPress={() => this.setState({ selectedTab: 'Messages' })}
+                >
+                    <MessagesView currentUser={user} />
+                </TabBarItemIOS>
+                <TabBarItemIOS
+                    title='Profile'
+                    selected={this.state.selectedTab === 'Profile'}
+                    iconName='ios-person'
+                    onPress={() => this.setState({ selectedTab: 'Profile' })}
+                >
+                    <ProfileView currentUser={user} logout={this.logout} />
                 </TabBarItemIOS>
             </TabBarIOS>
         );
