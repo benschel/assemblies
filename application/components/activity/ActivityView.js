@@ -8,6 +8,7 @@ import { extend } from 'underscore';
 import Activity from './Activity';
 import Conversation from '../messages/Conversation';
 import Event from '../groups/Event';
+import Profile from '../profile/Profile';
 
 import { API, DEV } from '../../config';
 
@@ -92,6 +93,14 @@ class ActivityView extends Component {
                         case 'Conversation':
                             return (
                                 <Conversation
+                                    {...this.props}
+                                    {...route}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'Profile':
+                            return (
+                                <Profile
                                     {...this.props}
                                     {...route}
                                     navigator={navigator}

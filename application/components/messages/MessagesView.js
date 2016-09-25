@@ -7,6 +7,7 @@ import { flatten, uniq } from 'underscore';
 
 import Conversation from './Conversation';
 import Conversations from './Conversations';
+import Profile from '../profile/Profile';
 
 import { DEV, API } from '../../config';
 import { globals } from '../../styles';
@@ -92,6 +93,14 @@ class MessagesView extends Component {
                                 <Conversation
                                     {...this.props}
                                     {...this.state}
+                                    {...route}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'Profile':
+                            return (
+                                <Profile
+                                    {...this.props}
                                     {...route}
                                     navigator={navigator}
                                 />

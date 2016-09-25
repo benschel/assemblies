@@ -7,6 +7,7 @@ import { extend } from 'underscore';
 
 import Calendar from './Calendar';
 import Event from '../groups/Event';
+import Profile from '../profile/Profile';
 
 import { API, DEV } from '../../config';
 
@@ -85,6 +86,14 @@ class CalendarView extends Component {
                                 <Event
                                     {...this.props}
                                     {...this.state}
+                                    {...route}
+                                    navigator={navigator}
+                                />
+                            );
+                        case 'Profile':
+                            return (
+                                <Profile
+                                    {...this.props}
                                     {...route}
                                     navigator={navigator}
                                 />
