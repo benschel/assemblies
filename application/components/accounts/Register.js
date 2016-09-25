@@ -10,6 +10,7 @@ import {
 import Config from 'react-native-config';
 import { find, extend, isEqual } from 'underscore';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import NavigationBar from 'react-native-navbar';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import BackButton from '../shared/BackButton';
@@ -81,7 +82,7 @@ class Register extends Component {
                     tintColor={Colors.brandPrimary}
                     leftButton={<BackButton handlePress={this.goBack} />}
                 />
-                <ScrollView style={styles.container}>
+                <KeyboardAwareScrollView style={styles.formContainer}>
                     <Text style={styles.h4}>
                         * Where are you looking for assemblies?
                     </Text>
@@ -162,7 +163,7 @@ class Register extends Component {
                             style={styles.input}
                         />
                     </View>
-                </ScrollView>
+                </KeyboardAwareScrollView>
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={this.handleSubmit}
